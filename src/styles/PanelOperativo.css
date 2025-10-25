@@ -1,0 +1,133 @@
+/* =========================
+   src/styles/PanelOperativo.css
+   (layout + tokens + utilidades compartidas)
+========================= */
+:root{
+  --orange:#F37021;
+  --text:#111827;
+  --muted:#6b7280;
+  --border:#e5e7eb;
+  --bg:#f9fafb;
+  --card:#ffffff;
+  --po-side-w:260px;
+}
+
+/* Contenedor principal */
+#panel-operativo{
+  height:100vh;
+  color:var(--text);
+  background:var(--bg);
+}
+
+/* ==== Sidebar fijo ==== */
+#panel-operativo .po__side{
+  position:fixed;
+  top:0; left:0;
+  width:var(--po-side-w);
+  height:100vh;
+  background:#fff;
+  border-right:1px solid var(--border);
+  z-index:10;
+}
+#panel-operativo .po__side-inner{
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  padding:16px 12px;
+  overflow-y:auto;
+  box-sizing:border-box;
+}
+#panel-operativo .po__brand{
+  font-weight:800;
+  letter-spacing:.3px;
+  padding:10px 12px 14px;
+}
+
+/* Navegación lateral */
+#panel-operativo .po__nav{ display:flex; flex-direction:column; gap:6px; }
+#panel-operativo .po__nav-sep{ height:1px; background:var(--border); margin:8px 0; }
+
+#panel-operativo .po__nav-item{
+  display:flex; align-items:center; gap:10px;
+  width:100%;
+  border:none; background:transparent; cursor:pointer;
+  padding:10px 12px; border-radius:10px; color:var(--text);
+  transition:background .15s ease, color .15s ease;
+  text-align:left;
+}
+#panel-operativo .po__nav-item:hover{ background:#f3f4f6; }
+#panel-operativo .po__nav-item.is-active{
+  background:rgba(243,112,33,.12); color:var(--orange);
+}
+#panel-operativo .po__nav-icn{ width:20px; height:20px; display:grid; place-items:center; }
+#panel-operativo .po__nav-icn svg{ width:20px; height:20px; }
+#panel-operativo .po__nav-txt{ font-weight:600; font-size:14px; }
+#panel-operativo .po__logout{ color:#b91c1c; }
+#panel-operativo .po__logout:hover{ background:#fee2e2; }
+
+/* ==== Main desplazable ==== */
+#panel-operativo .po__main{
+  margin-left:var(--po-side-w);
+  height:100vh;
+  overflow-y:auto;
+  padding:24px;
+  box-sizing:border-box;
+}
+
+/* Secciones y vacíos compartidos */
+.po__section{ margin:18px 0; }
+.po__section-h{
+  font-weight:700; margin-bottom:10px; font-size:15px;
+}
+.po__section-b{
+  background:var(--card); border:1px solid var(--border);
+  border-radius:12px; padding:14px;
+}
+
+.po__empty{
+  display:flex; align-items:center; gap:10px;
+  padding:18px; color:var(--muted);
+}
+.po__empty-icn{ width:28px; height:28px; display:grid; place-items:center; }
+
+/* Botones y campos compartidos */
+.po__btn{
+  height:40px; padding:0 14px; border-radius:10px;
+  border:1px solid var(--border); background:#fff; cursor:pointer;
+}
+.po__btn--primary{
+  background:var(--orange); border-color:var(--orange); color:#fff; font-weight:700;
+}
+.po__form{ display:grid; gap:12px; }
+.po__form-actions{ display:flex; gap:10px; justify-content:flex-end; }
+
+.po__field{ display:grid; gap:6px; }
+.po__label{ font-size:13px; color:var(--text); }
+.po__input, .po__select, .po__textarea{
+  width:100%; height:42px; border:1px solid var(--border); border-radius:10px;
+  padding:0 12px; font-size:14px; background:#fff; outline:none;
+}
+.po__input:focus, .po__select:focus, .po__textarea:focus{
+  border-color:#f59e0b; box-shadow:0 0 0 3px rgba(255,159,64,.18);
+}
+.po__textarea{ height:auto; padding:10px 12px; }
+
+/* Modal */
+.po__modal{ position:fixed; inset:0; background:rgba(17,24,39,.42); display:grid; place-items:center; z-index:999; }
+.po__modal-dialog{
+  width:min(640px, 92vw); background:#fff; border-radius:14px;
+  padding:16px; box-shadow:0 20px 50px rgba(0,0,0,.2);
+}
+.po__modal-head{ padding:4px 4px 12px; border-bottom:1px solid var(--border); margin-bottom:12px; }
+.po__modal-title{ margin:0; font-size:18px; font-weight:800; }
+
+.po__footer{ margin-top:24px; color:var(--muted); font-size:12px; text-align:center; }
+
+.req{ color:#ef4444; }
+.muted{ color:var(--muted); }
+
+/* Responsive */
+@media (max-width: 860px){
+  :root{ --po-side-w:220px; }
+  #panel-operativo .po__main{ padding:18px; }
+}

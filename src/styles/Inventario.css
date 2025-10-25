@@ -1,0 +1,55 @@
+/* =========================
+   src/styles/Inventario.css
+   (solo estilos de Inventario)
+========================= */
+
+.inv{ display:grid; gap:14px; }
+
+.inv__head{
+  display:flex; align-items:end; justify-content:space-between; gap:10px;
+}
+.inv__title{ margin:0; font-size:18px; font-weight:800; }
+.inv__subtitle{ margin:4px 0 0; color:var(--muted); font-size:13px; }
+
+.inv__btn-new{
+  display:inline-flex; align-items:center; gap:8px;
+  height:40px; padding:0 12px; border-radius:10px; border:none;
+  background:var(--orange); color:#fff; cursor:pointer; font-weight:700;
+}
+.inv__btn-icn{ width:22px; height:22px; display:grid; place-items:center; }
+
+.inv__panel{
+  background:#fff; border:1px solid var(--border); border-radius:12px; padding:14px;
+  display:grid; gap:12px;
+}
+.inv__panel-head{ display:flex; align-items:center; justify-content:space-between; }
+.inv__panel-title{ margin:0; font-size:15px; font-weight:800; }
+
+.inv__search{
+  position:relative; width:280px; max-width:46vw;
+  display:flex; align-items:center; gap:8px;
+  border:1px solid var(--border); border-radius:10px; padding:0 10px;
+  background:#fff; height:38px;
+}
+.inv__search-icn{ width:18px; height:18px; display:grid; place-items:center; color:var(--muted); }
+.inv__search-in{
+  flex:1; border:none; outline:none; background:transparent; height:100%;
+  font-size:14px; color:var(--text);
+}
+
+.inv__list{ display:grid; gap:10px; }
+.inv__item{
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  border:1px solid var(--border); border-radius:12px; padding:12px;
+  background:#fff;
+}
+.inv__item-body{ display:grid; gap:4px; }
+.inv__item-name{ font-weight:800; }
+.inv__item-line{ color:var(--muted); font-size:13px; }
+
+.inv__item-actions{ display:flex; gap:8px; }
+.inv__btn-edit, .inv__btn-mov{
+  height:36px; padding:0 12px; border-radius:10px; border:1px solid var(--border);
+  background:#fff; cursor:pointer; display:inline-flex; align-items:center; gap:8px;
+}
+.inv__btn-edit:hover, .inv__btn-mov:hover{ background:#f9fafb; }

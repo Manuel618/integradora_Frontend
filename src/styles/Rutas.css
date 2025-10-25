@@ -1,0 +1,40 @@
+/* =========================
+   src/styles/Rutas.css
+   (solo estilos de Rutas)
+========================= */
+
+.rt{ display:grid; gap:14px; }
+
+.rt__head{
+  display:flex; align-items:end; justify-content:space-between; gap:10px;
+}
+.rt__title{ margin:0; font-size:18px; font-weight:800; }
+.rt__subtitle{ margin:4px 0 0; color:var(--muted); font-size:13px; }
+
+.rt__btn-new{
+  display:inline-flex; align-items:center; gap:8px;
+  height:40px; padding:0 12px; border-radius:10px; border:none;
+  background:var(--orange); color:#fff; cursor:pointer; font-weight:700;
+}
+.rt__btn-icn{ width:20px; height:20px; display:grid; place-items:center; }
+
+.rt__panel{
+  background:#fff; border:1px solid var(--border); border-radius:12px;
+  padding:14px; display:grid; gap:12px;
+}
+.rt__panel-title{ font-weight:800; font-size:15px; }
+
+.rt__form{ display:grid; gap:12px; }
+.rt__form-actions{ display:flex; gap:10px; justify-content:flex-end; }
+
+.rt__cards{ display:grid; grid-template-columns:repeat(2, minmax(260px,1fr)); gap:12px; }
+.rt__card{
+  background:#fff; border:1px solid var(--border); border-radius:12px; padding:12px;
+}
+.rt__card-title{ font-weight:800; margin-bottom:8px; }
+.rt__card-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:6px 10px; }
+
+@media (max-width: 720px){
+  .rt__cards{ grid-template-columns:1fr; }
+  .rt__card-grid{ grid-template-columns:1fr; }
+}

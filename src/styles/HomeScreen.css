@@ -1,0 +1,203 @@
+/* ======= HomeScreen.css ======= */
+/* Colores y tamaños base */
+:root{
+  --orange: #E05A00;
+  --text:   #111827;
+  --muted:  #6b7280;
+  --border: #dadada;    /* borde gris claro del card */
+
+  /* Tamaño de tarjeta */
+  --card-w: 220px;
+
+  /* Escala de la imagen de producto (sin deformar) */
+  --img-max-w: 85%;
+}
+
+/* Página blanca */
+.home-page{
+  background:#fff;
+  color:var(--text);
+  min-height:100vh;
+}
+
+/* ====== HERO ====== */
+.hero-banner{
+  height: 180px;
+  margin: 0 clamp(24px, 8vw, 100px);   /* más corto de los lados */
+  border-radius: 0;
+  overflow: visible;
+  box-shadow: 0 8px 24px rgba(0,0,0,.08);
+  background:
+    linear-gradient(0deg, rgba(0,0,0,.35), rgba(0,0,0,.35)),
+    url("../assets/pollo.jpg") center/cover no-repeat;
+}
+.hero-overlay{
+  height:100%;
+  display:flex;
+  align-items:center;
+  padding-left: 24px;
+}
+.hero-overlay h1{
+  color:#fff; margin:0;
+  font-size: clamp(26px, 4vw, 40px);
+  line-height:1.1;
+  text-shadow: 0 2px 10px rgba(0,0,0,.35);
+}
+
+/* ====== SECCIÓN CATÁLOGO ====== */
+.catalog{
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px 16px 28px;
+}
+
+.catalog-top{
+  display:grid;
+  grid-template-columns: 1fr auto;
+  align-items:end;
+  gap: 16px;
+  margin-bottom: 6px;
+  border-bottom: 1px solid #e5e7eb;
+}
+.catalog-top h2{
+  margin:0 0 8px 0;
+  font-size: 22px;
+}
+
+/* Tabs */
+.tabs{ display:flex; gap:10px; }
+.tab{
+  background:#f9fafb;
+  border:1px solid #e5e7eb;
+  border-bottom: none;
+  padding: 10px 22px;
+  border-radius: 10px 10px 0 0;
+  color: var(--text);
+  font-weight: 600;
+  cursor:pointer;
+  position: relative;
+  transition: color .2s ease, background-color .2s ease;
+}
+.tab.active{
+  background:#fff;
+  color: var(--orange);
+  border-color: #e5e7eb;
+  box-shadow: 0 -1px 0 #fff inset;
+}
+/* Subrayado animado del tab activo */
+.tab::after{
+  content:"";
+  position:absolute; left:14px; right:14px; bottom:-1px;
+  height:2px; background: var(--orange);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .25s ease;
+}
+.tab.active::after{ transform: scaleX(1); }
+
+/* ====== GRID DE PRODUCTOS ====== */
+.product-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--card-w), 1fr));
+  gap: 16px;
+  padding: 8px 0;
+}
+
+/* ====== Tarjeta estilo imagen de referencia ====== */
+.product-card{
+  text-align: center;                    /* título/price centrados */
+  background:#fff;
+  border: 3px solid var(--border);       /* borde grueso y claro */
+  border-radius: 16px;                   /* esquinas redondeadas */
+  padding: 12px;
+  box-shadow: 0 1px 0 #ededed;           /* sombra muy sutil */
+}
+
+/* Contenedor de imagen SIN forzar cuadrado ni zoom */
+.product-img{
+  width: 100%;
+  border-radius: 12px;
+  background:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow: visible;
+  padding: 0;
+  margin-bottom: 8px;
+}
+
+/* Imagen en tamaño/proporción original */
+.product-img img{
+  display:block;
+  max-width: var(--img-max-w);
+  height:auto;                           /* mantiene proporción */
+  object-fit: initial;                   /* sin recorte ni zoom */
+  object-position:center;
+}
+
+/* Título con serif (estilo catálogo) */
+.product-title{
+  font-family: Georgia, "Times New Roman", serif;  /* similar a la imagen */
+  font-size: 18px;                   /* tamaño notorio */
+  font-weight: 500;
+  line-height: 1.2;
+  margin: 0 0 6px;
+  color: #111827;
+}
+
+/* Precio naranja destacado (incluye unidad) */
+.product-price{
+  color: var(--orange);
+  font-weight: 700;
+  font-size: 18px;
+}
+.product-price span{
+  color: var(--orange);
+  font-weight: 700;
+}
+
+/* ====== CTA inferior ====== */
+.buy-cta-wrap{
+  display:flex; justify-content:center;
+  margin-top: 16px;
+}
+.buy-cta{
+  display:inline-flex; align-items:center; gap:8px;
+  background:#fff;
+  color: var(--orange);
+  border: 2px solid var(--orange);
+  border-radius: 18px;
+  padding: 8px 16px;
+  font-weight:600;
+  text-decoration:none;
+}
+.buy-cta:hover{ background:#fff7f0; }
+
+/* ====== Animación de cambio de tab (fade + slide-up) ====== */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.product-grid.animate-in { --stagger-step: 70ms; }
+.product-grid.animate-in .product-card{
+  opacity: 0;
+  animation: fadeUp .35s ease forwards;
+  animation-delay: calc(var(--i, 0) * var(--stagger-step));
+}
+
+/* ====== Responsive ====== */
+@media (max-width: 900px){
+  .hero-banner{ height: 200px; }
+  .catalog-top{ grid-template-columns: 1fr; }
+  .tabs{ justify-content:center; }
+}
+
+
+
+
+
+
+
+
+
+

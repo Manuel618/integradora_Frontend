@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { HashRouter, Routes, Route } from "react-router-dom";
 
-function App() {
+import NavBar from "./components/NavBar.jsx";
+import HomeScreen from "./components/HomeScreen.jsx";      // Recetario (Home)
+import Sucursales from "./components/Sucursales.jsx";
+import Promociones from "./components/Promociones.jsx";
+import Login from "./components/Login.jsx";
+import JugarGanar from "./components/JugarGanar.jsx";
+import PanelOperativo from "./components/PanelOperativo";
+
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <HashRouter>
+      {/* Navbar visible en todas las páginas */}
+      <NavBar />
+
+      <Routes>
+        <Route path="/" element={<HomeScreen />} />
+        <Route path="/sucursales" element={<Sucursales />} />
+        <Route path="/promociones" element={<Promociones />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/jugar-ganar" element={<JugarGanar />} />
+        <Route path="/panel-operativo" element={<PanelOperativo />} />
+      </Routes>
+    </HashRouter>
   );
 }
-
-export default App;

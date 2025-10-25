@@ -1,0 +1,32 @@
+/* =========================
+   src/styles/Dashboard.css
+   (solo estilos del Dashboard)
+========================= */
+.po__dash .po__welcome{
+  display:flex; align-items:baseline; justify-content:space-between;
+  gap:12px; margin-bottom:14px;
+}
+.po__welcome-title{ margin:0; font-size:20px; font-weight:800; }
+.po__date{ margin:0; color:var(--muted); font-size:13px; }
+
+/* KPIs */
+.po__dash .po__kpis{
+  display:grid; grid-template-columns:repeat(4, minmax(210px,1fr));
+  gap:12px; margin-bottom:16px;
+}
+.po__dash .po__kpi{
+  background:#fff; border:1px solid var(--border); border-radius:12px;
+  padding:14px; display:grid; gap:8px;
+}
+.po__dash .po__kpi-title{ font-size:13px; color:var(--muted); }
+.po__dash .po__kpi-icn{ width:28px; height:28px; color:var(--orange); }
+.po__dash .po__kpi-icn svg{ width:28px; height:28px; }
+.po__dash .po__kpi-value{ font-size:22px; font-weight:800; }
+.po__dash .po__kpi-sub{ color:var(--muted); font-size:12px; }
+
+@media (max-width: 1024px){
+  .po__dash .po__kpis{ grid-template-columns:repeat(2, minmax(210px,1fr)); }
+}
+@media (max-width: 520px){
+  .po__dash .po__kpis{ grid-template-columns:1fr; }
+}
