@@ -1,17 +1,24 @@
 /* ===== NavBar (logo adaptable) ===== */
 
-/* Controla el tamaño del logo y el espacio entre links desde aquí */
 :root{
-  --logo-size: clamp(48px, 7vw, 84px);  /* crece según el ancho de la pantalla */
-  --nav-gap:  clamp(20px, 6vw, 72px);   /* espacio entre los enlaces */
+  --logo-size: clamp(48px, 7vw, 84px);
+  --nav-gap:  clamp(20px, 6vw, 72px);
+
+  /* Colores */
+  --nav-bg:  #F37021;  /* ← color anterior restaurado */
+  --link:    #ffffff;  /* texto de enlaces */
+  --cta-bg:  #111827;  /* botón contrastante */
+  --hover-bg: rgba(255,255,255,.12);
+  --active-bg: rgba(255,255,255,.18);
 }
 
 .navbar{
   position: sticky;
   top: 0;
   z-index: 20;
-  background: #ffffff;
-  border-bottom: 1px solid #eeeeee;
+  background: var(--nav-bg);
+  border-bottom: none;
+  color: #fff;
 }
 
 .navbar-inner{
@@ -20,8 +27,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 16px;        /* menos padding para darle protagonismo al logo */
-  position: relative;       /* para el menú absoluto en móvil */
+  padding: 8px 16px;
+  position: relative;
 }
 
 /* Marca (logo) */
@@ -29,6 +36,7 @@
   display: inline-flex;
   align-items: center;
   text-decoration: none;
+  color: #fff;
 }
 .brand-logo{
   width: var(--logo-size);
@@ -37,67 +45,55 @@
   align-items: center;
   justify-content: center;
   background: transparent;
-  border-radius: 0;
-  overflow: visible;
-  box-shadow: none;
   padding: 0;
 }
 .brand-logo img{
   width: 100%;
   height: 100%;
-  object-fit: contain;      /* ajusta sin recortar */
-  border-radius: 0;
+  object-fit: contain;
   display: block;
 }
 
-/* Links centrados con espaciado adaptable */
+/* Links */
 .links{
   display: flex;
   align-items: center;
   gap: var(--nav-gap);
 }
 
-/* Estado base de los enlaces (no CTA) */
 .links a{
-  color: #111827;
+  color: var(--link);
   text-decoration: none;
   font-weight: 500;
-  font-size: 16px;          /* ↑ letras un poco más grandes */
-  padding: 10px 12px;       /* área de clic cómoda */
+  font-size: 16px;
+  padding: 10px 12px;
   border-radius: 10px;
-  transition: color .15s ease, background-color .15s ease;
+  transition: background-color .15s ease, filter .15s ease, color .15s ease;
 }
 
-/* Hover SOLO para enlaces que NO son CTA */
-.links a:not(.cta):hover{
-  color: #E05A00;
-  background: transparent;
-}
+.links a:not(.cta):hover{ background: var(--hover-bg); }
+.links a.active:not(.cta){ background: var(--active-bg); }
 
-/* ===== CTA “Jugar y ganar” (más largo) ===== */
+/* ===== CTA “Jugar y ganar” (alto contraste) ===== */
 .links .cta{
-  background: #E05A00;
+  background: var(--cta-bg);
   color: #ffffff;
   text-decoration: none;
-  padding: 12px 28px;       /* ↑ más largo/ancho */
+  padding: 12px 28px;
   border-radius: 16px;
   font-weight: 600;
-  font-size: 16px;          /* ↑ letras un poco más grandes */
-  transition: transform .15s ease, box-shadow .15s ease, filter .15s ease, color .15s ease;
+  font-size: 16px;
+  transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
+  box-shadow: 0 6px 16px rgba(17,24,39,.35);
 }
-
-/* Hover SOLO del CTA: texto blanco y efecto notorio */
 .links .cta:hover{
-  color: #ffffff;           
   transform: translateY(-1px) scale(1.02);
-  box-shadow: 0 6px 16px rgba(224, 90, 0, .35);
-  filter: brightness(0.96);
+  filter: brightness(1.08);
+  box-shadow: 0 8px 18px rgba(17,24,39,.45);
 }
-
-/* Active (click) del CTA: feedback táctil */
 .links .cta:active{
   transform: translateY(0) scale(0.99);
-  filter: brightness(0.92);
+  filter: brightness(0.96);
 }
 
 /* Toggle (móvil) */
@@ -112,7 +108,7 @@
   display: block;
   width: 22px;
   height: 2px;
-  background: #111827;
+  background: #ffffff;
   margin: 4px 0;
 }
 
@@ -123,11 +119,9 @@
   .links{
     display: none;
     position: absolute;
-    left: 0;
-    right: 0;
-    top: calc(var(--logo-size) + 18px); /* debajo de la barra considerando el logo */
-    background: #ffffff;
-    border-bottom: 1px solid #eeeeee;
+    left: 0; right: 0;
+    top: calc(var(--logo-size) + 18px);
+    background: var(--nav-bg);
     flex-direction: column;
     gap: 12px;
     padding: 12px 16px;
@@ -135,8 +129,72 @@
   .links.is-open{ display: flex; }
 }
 
-/* Accesibilidad: foco visible con teclado */
-.links a:focus-visible{
-  outline: 2px solid #E05A00;
+/* Accesibilidad */
+.links a:focus-visible,
+.brand:focus-visible{
+  outline: 2px solid var(--cta-bg);
   outline-offset: 2px;
+}
+/* ===== Compactar espacio entre enlaces ===== */
+:root{
+  /* Menos separación entre items */
+  --nav-gap: clamp(6px, 2.5vw, 22px);
+}
+
+/* Enlaces más pegados */
+.links a{
+  padding: 6px 8px;     /* antes 10px 12px */
+  font-size: 15px;      /* opcional: un pelín más compacto */
+}
+
+/* CTA un poco más corto para armonizar */
+.links .cta{
+  padding: 10px 20px;   /* antes 12px 28px */
+  border-radius: 14px;
+}
+
+/* En móvil, lista vertical con menos gap */
+@media (max-width: 900px){
+  .links{ gap: 8px; }   /* antes 12px */
+}
+
+
+
+/* ===== Buscador en navbar ===== */
+.nav-search{
+  display: flex;
+  align-items: center;
+}
+
+.nav-search-input{
+  width: clamp(160px, 24vw, 280px);
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(17,24,39,.2);
+  background: #ffffff;      /* se ve bien sobre el navbar naranja */
+  color: #111827;
+  font-size: 14.5px;
+  line-height: 1.2;
+  outline: none;
+  transition: box-shadow .15s ease, border-color .15s ease, background-color .15s ease;
+}
+
+.nav-search-input::placeholder{
+  color: #6b7280;
+}
+
+.nav-search-input:focus{
+  border-color: #111827;
+  box-shadow: 0 0 0 3px rgba(17,24,39,.15);
+}
+
+/* Compacto con el menú */
+.links{
+  gap: var(--nav-gap);
+}
+
+/* En móvil ocupa todo el ancho del menú desplegado */
+@media (max-width: 900px){
+  .nav-search{ width: 100%; }
+  .nav-search-input{ width: 100%; }
 }

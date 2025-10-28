@@ -1,94 +1,113 @@
-/* ======= HomeScreen.css ======= */
-/* Colores y tamaños base */
+/* ======= Promociones.css (pro) ======= */
+/* Paleta y diseño base */
 :root{
-  --orange: #E05A00;
-  --text:   #111827;
-  --muted:  #6b7280;
-  --border: #dadada;    /* borde gris claro del card */
+  --orange:  #E05A00;        /* color de marca */
+  --text:    #111827;        /* texto principal */
+  --muted:   #6b7280;        /* texto secundario */
+  --border:  #e7e7e9;        /* borde sutil de tarjetas */
+  --surface: #ffffff;        /* fondo de superficies */
 
-  /* Tamaño de tarjeta */
-  --card-w: 220px;
+  /* Dimensiones fluidas */
+  --container-max: 1200px;
+  --pad-x: clamp(16px, 4vw, 24px);
 
-  /* Escala de la imagen de producto (sin deformar) */
+  /* Tarjeta e imagen */
+  --card-w: clamp(200px, 22vw, 260px);
   --img-max-w: 85%;
+
+  /* Radios y sombras */
+  --radius-lg: 16px;
+  --radius-md: 12px;
+  --shadow-sm: 0 1px 0 rgba(17,24,39,.04);
+  --shadow-md: 0 6px 24px rgba(17,24,39,.08);
 }
 
-/* Página blanca */
+/* Página */
 .home-page{
-  background:#fff;
-  color:var(--text);
-  min-height:100vh;
+  background: #fff;
+  color: var(--text);
+  min-height: 100vh;
 }
 
 /* ====== HERO ====== */
+/* La imagen/fondo se define en el JSX */
 .hero-banner{
-  height: 180px;
-  margin: 0 clamp(24px, 8vw, 100px);   /* más corto de los lados */
+  min-height: clamp(120px, 18vw, 180px);
+  margin: 0 clamp(24px, 8vw, 100px);
   border-radius: 0;
-  overflow: visible;
-  box-shadow: 0 8px 24px rgba(0,0,0,.08);
-  background:
-    linear-gradient(0deg, rgba(0,0,0,.35), rgba(0,0,0,.35)),
-    url("../assets/pollo.jpg") center/cover no-repeat;
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
 }
 .hero-overlay{
-  height:100%;
-  display:flex;
-  align-items:center;
-  padding-left: 24px;
+  min-height: inherit;
+  display: flex;
+  align-items: center;
+  padding-left: var(--pad-x);
 }
 .hero-overlay h1{
-  color:#fff; margin:0;
+  margin: 0;
+  color: #fff;
   font-size: clamp(26px, 4vw, 40px);
-  line-height:1.1;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
   text-shadow: 0 2px 10px rgba(0,0,0,.35);
 }
 
 /* ====== SECCIÓN CATÁLOGO ====== */
 .catalog{
-  max-width: 1200px;
+  max-width: var(--container-max);
   margin: 0 auto;
-  padding: 16px 16px 28px;
+  padding: 16px var(--pad-x) 32px;
 }
 
 .catalog-top{
-  display:grid;
+  display: grid;
   grid-template-columns: 1fr auto;
-  align-items:end;
+  align-items: end;
   gap: 16px;
-  margin-bottom: 6px;
-  border-bottom: 1px solid #e5e7eb;
+  margin-bottom: 8px;
+  border-bottom: 1px solid #eee;
 }
 .catalog-top h2{
-  margin:0 0 8px 0;
-  font-size: 22px;
+  margin: 0 0 10px 0;
+  font-size: clamp(18px, 2vw, 22px);
+  font-weight: 700;
+  letter-spacing: -0.01em;
 }
 
 /* Tabs */
-.tabs{ display:flex; gap:10px; }
+.tabs{ display: flex; gap: 10px; }
 .tab{
-  background:#f9fafb;
-  border:1px solid #e5e7eb;
+  appearance: none;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
   border-bottom: none;
   padding: 10px 22px;
   border-radius: 10px 10px 0 0;
   color: var(--text);
   font-weight: 600;
-  cursor:pointer;
+  cursor: pointer;
   position: relative;
-  transition: color .2s ease, background-color .2s ease;
+  transition: color .2s ease, background-color .2s ease, border-color .2s ease, transform .15s ease;
+  will-change: transform;
+}
+.tab:hover{ background: #f3f4f6; }
+.tab:active{ transform: translateY(1px); }
+.tab:focus-visible{
+  outline: 3px solid rgba(224,90,0,.25);
+  outline-offset: 1px;
 }
 .tab.active{
-  background:#fff;
+  background: var(--surface);
   color: var(--orange);
   border-color: #e5e7eb;
   box-shadow: 0 -1px 0 #fff inset;
 }
 /* Subrayado animado del tab activo */
 .tab::after{
-  content:"";
-  position:absolute; left:14px; right:14px; bottom:-1px;
-  height:2px; background: var(--orange);
+  content: "";
+  position: absolute; left: 14px; right: 14px; bottom: -1px;
+  height: 2px; background: var(--orange);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform .25s ease;
@@ -99,79 +118,151 @@
 .product-grid{
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(var(--card-w), 1fr));
-  gap: 16px;
-  padding: 8px 0;
+  gap: clamp(12px, 2vw, 16px);
+  padding-top: 10px;
 }
 
-/* ====== Tarjeta estilo imagen de referencia ====== */
+/* ====== Tarjeta (acabado profesional) ====== */
 .product-card{
   text-align: center;
-  background:#fff;
-  border: 3px solid var(--border);
-  border-radius: 16px;
-  padding: 12px;
-  box-shadow: 0 1px 0 #ededed;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 16px 14px;
+  box-shadow: var(--shadow-sm);
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  will-change: transform, box-shadow;
+}
+.product-card:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(17,24,39,.10);
+  border-color: #e6e9ee;
+}
+.product-card:active{ transform: translateY(0); }
+.product-card:focus-within{
+  box-shadow: 0 0 0 3px rgba(224,90,0,.18), 0 10px 28px rgba(17,24,39,.10);
+  border-color: #e6e9ee;
 }
 
-/* Imagen */
+/* Imagen con curvatura y marco consistente */
 .product-img{
-  width: 100%;
-  border-radius: 12px;
-  background:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  overflow: visible;
-  padding: 0;
-  margin-bottom: 8px;
+  aspect-ratio: 4 / 3; /* altura consistente, sin deformar */
+  background:
+    radial-gradient(60% 60% at 50% 40%, rgba(17,24,39,.04), transparent 60%),
+    #fff;
+  border-radius: var(--radius-md);
+  overflow: hidden; /* recorta esquinas redondeadas */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
 }
 .product-img img{
-  display:block;
+  display: block;
   max-width: var(--img-max-w);
-  height:auto;
-  object-fit: initial;
-  object-position:center;
+  height: auto;
+  object-fit: contain;
+  object-position: center;
+  transform: scale(1);
+  transition: transform .25s ease;
+}
+.product-card:hover .product-img img{
+  transform: scale(1.03); /* micro-zoom elegante */
 }
 
 /* Título */
 .product-title{
   font-family: Georgia, "Times New Roman", serif;
+  font-weight: 600;
   font-size: 18px;
-  font-weight: 500;
   line-height: 1.2;
-  margin: 0 0 6px;
-  color: #111827;
+  margin: 0 0 8px;
+  color: var(--text);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-/* Precio normal (para páginas SIN promoción) */
-.product-price{
-  color: var(--orange);
-  font-weight: 700;
-  font-size: 18px;
+/* ====== Precios en PROMOCIONES ====== */
+/* Oculta el precio normal si existiera la clase reutilizada */
+.promo-page .product-card .product-price{ display: none !important; }
+
+.promo-page .product-card .price-box{
+  display: grid;
+  grid-template-columns: auto auto; /* izq: precio nuevo | der: -% */
+  justify-content: center;
+  align-items: baseline;
+  gap: 2px 10px;
+  margin-top: 6px;
+  text-align: center;
 }
-.product-price span{
+
+/* Precio original: arriba, gris y tachado */
+.promo-page .product-card .price-old{
+  grid-column: 1 / -1;
+  color: #9CA3AF;
+  text-decoration: line-through;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.1;
+}
+.promo-page .product-card .price-old span{ font-weight: 500; }
+
+/* Precio con promoción */
+.promo-page .product-card .price-new{
+  grid-column: 1;
   color: var(--orange);
+  font-weight: 800;
+  font-size: 20px;
+  line-height: 1.1;
+}
+.promo-page .product-card .price-new span{ font-weight: 700; }
+
+/* Descuento (-%) */
+.promo-page .product-card .price-note{
+  grid-column: 2;
+  color: #9CA3AF;
   font-weight: 700;
+  font-size: 16px;
+  line-height: 1.1;
+  align-self: baseline;
 }
 
 /* ====== CTA inferior ====== */
 .buy-cta-wrap{
-  display:flex; justify-content:center;
-  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+  margin-top: 18px;
 }
 .buy-cta{
-  display:inline-flex; align-items:center; gap:8px;
-  background:#fff;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
   color: var(--orange);
   border: 2px solid var(--orange);
   border-radius: 18px;
-  padding: 8px 16px;
-  font-weight:600;
-  text-decoration:none;
+  padding: 10px 18px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background-color .18s ease, color .18s ease, box-shadow .18s ease, transform .18s ease, border-color .18s ease;
 }
-.buy-cta:hover{ background:#fff7f0; }
+.buy-cta:hover{
+  background: #fff7f0;
+  box-shadow: 0 6px 18px rgba(224,90,0,.18);
+  transform: translateY(-1px);
+}
+.buy-cta:active{
+  transform: translateY(0);
+  box-shadow: none;
+}
+.buy-cta:focus-visible{
+  outline: 3px solid rgba(224,90,0,.25);
+  outline-offset: 2px;
+}
 
-/* ====== Animación de cambio de tab ====== */
+/* ====== Animación de entrada ====== */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(8px) scale(0.98); }
   to   { opacity: 1; transform: translateY(0) scale(1); }
@@ -183,54 +274,25 @@
   animation-delay: calc(var(--i, 0) * var(--stagger-step));
 }
 
+/* Accesibilidad: respeta preferencias de movimiento */
+@media (prefers-reduced-motion: reduce){
+  .tab,
+  .product-card,
+  .product-img img,
+  .buy-cta,
+  .product-grid.animate-in .product-card{
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
 /* ====== Responsive ====== */
 @media (max-width: 900px){
-  .hero-banner{ height: 200px; }
+  .hero-banner{ min-height: 160px; }
   .catalog-top{ grid-template-columns: 1fr; }
-  .tabs{ justify-content:center; }
+  .tabs{ justify-content: center; }
 }
-
-/* ====== PRECIOS CON DESCUENTO (SOLO en Promociones) ====== */
-/* Importante: el scope .promo-page evita tocar el Home */
-.promo-page .product-card .product-price{ display: none !important; }
-
-.promo-page .product-card .price-box{
-  display: grid;
-  grid-template-columns: auto auto;     /* izq: precio nuevo | der: -% */
-  justify-content: center;
-  align-items: baseline;
-  gap: 2px 10px;
-  margin-top: 6px;
-  text-align: center;
-}
-
-/* Precio original arriba, gris y tachado */
-.promo-page .product-card .price-old{
-  grid-column: 1 / -1;
-  color: #9CA3AF;
-  text-decoration: line-through;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 1.1;
-}
-.promo-page .product-card .price-old span{ font-weight: 500; }
-
-/* Precio con promoción (verde) abajo izquierda */
-.promo-page .product-card .price-new{
-  grid-column: 1;
-  color: #E05A00;
-  font-weight: 800;
-  font-size: 20px;
-  line-height: 1.1;
-}
-.promo-page .product-card .price-new span{ font-weight: 700; }
-
-/* -% en gris a la derecha */
-.promo-page .product-card .price-note{
-  grid-column: 2;
-  color: #9CA3AF;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 1.1;
-  align-self: baseline;
+@media (max-width: 600px){
+  :root{ --card-w: clamp(160px, 44vw, 220px); }
+  .buy-cta{ padding: 9px 16px; }
 }
