@@ -27,19 +27,19 @@ export default function PanelOperativo() {
   );
 
   // =========================
-  // Estado compartido
+  // Estado compartido (solo Rutas)
   // =========================
-  // Productos (compartido entre Inventario y POS)
-  const [products, setProducts] = useState([
-    { id: "p1", name: "Pollo Entero",       type: "Pollo Entero", pricePerKg: 45.5, stockKg: 250, minKg: 50, provider: "Avícola del Norte" },
-    { id: "p2", name: "Pechuga de pollo",   type: "Pechuga",      pricePerKg: 65.5, stockKg: 180, minKg: 30, provider: "Pollos Premium"  },
-    { id: "p3", name: "Alas de pollo",      type: "Alas",         pricePerKg: 42.0, stockKg: 90,  minKg: 20, provider: "Pollos Premium"  },
-    { id: "p4", name: "Menudencias",        type: "Menudencias",  pricePerKg: 35.0, stockKg: 120, minKg: 20, provider: "Avícola del Norte" },
-    { id: "p5", name: "Piernas con Muslo",  type: "Piernas",      pricePerKg: 51.5, stockKg: 70,  minKg: 10, provider: "Polleras MX"     },
-  ]);
-
-  // Rutas (usado en Rutas y mostrado en Dashboard)
   const [routes, setRoutes] = useState([]);
+
+  // >>> NO hay lista de productos aquí <<<
+  // Solo lectura desde localStorage si algún componente lo requiere.
+  const products = useMemo(() => {
+    try {
+      return JSON.parse(localStorage.getItem("inv_products") || "[]");
+    } catch {
+      return [];
+    }
+  }, [tab]); // se vuelve a leer al cambiar de pestaña
 
   // =========================
   // Utilidades y helpers
@@ -52,34 +52,6 @@ export default function PanelOperativo() {
       currency: "MXN",
       maximumFractionDigits: 2,
     });
-
-  const addProduct = (data) => {
-    setProducts((arr) => [
-      {
-        ...data,
-        id: "p_" + Math.random().toString(36).slice(2, 9),
-        pricePerKg: +data.pricePerKg || 0,
-        stockKg: +data.stockKg || 0,
-        minKg: +data.minKg || 0,
-      },
-      ...arr,
-    ]);
-  };
-
-  const updateProduct = (data) => {
-    setProducts((arr) =>
-      arr.map((p) =>
-        p.id === data.id
-          ? {
-              ...data,
-              pricePerKg: +data.pricePerKg || 0,
-              stockKg: +data.stockKg || 0,
-              minKg: +data.minKg || 0,
-            }
-          : p
-      )
-    );
-  };
 
   const createRoute = (data) => {
     setRoutes((arr) => [
@@ -171,8 +143,9 @@ export default function PanelOperativo() {
 
       {/* ===================== Main ===================== */}
       <main className="po__main">
-        {tab === "dashboard"  && <Dashboard  fecha={fecha} products={products} routes={routes} money={money} />}
-        {tab === "inventario" && <Inventario products={products} onAddProduct={addProduct} onUpdateProduct={updateProduct} money={money} />}
+        {/* Si no quieres pasar products, puedes quitar esa prop sin problema */}
+        {tab === "dashboard"  && <Dashboard  fecha={fecha} routes={routes} products={products} money={money} />}
+        {tab === "inventario" && <Inventario money={money} />}
         {tab === "rutas"      && <Rutas routes={routes} onCreateRoute={createRoute} />}
         {tab === "pos"        && <PuntoDeVenta products={products} money={money} />}
 
