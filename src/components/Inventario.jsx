@@ -3,9 +3,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import "../styles/Inventario.css";
 
 export default function Inventario({ onAddProduct, onUpdateProduct, money }) {
-  /* =========================
-     Estado local (sin productos por defecto)
-  ========================= */
+ 
   const [items, setItems] = useState(() => {
     try {
       const cached = localStorage.getItem("inv_products");

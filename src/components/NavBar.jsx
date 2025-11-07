@@ -100,8 +100,8 @@ export default function NavBar() {
           </form>
 
           {/* Links */}
-          <NavLink to="/"                 className={linkClass} end>Recetario</NavLink>
-          <NavLink to="/sucursales"      className={linkClass}>Sucursales</NavLink>
+          <NavLink to="/"                 className={linkClass} end>Inicio</NavLink>
+          <NavLink to="/recetario"      className={linkClass}>Recetario</NavLink>
           <NavLink to="/promociones"     className={linkClass}>Promociones</NavLink>
           <NavLink to="/panel-operativo" className={linkClass}>Panel Operativo</NavLink>
           <NavLink to="/login"           className={linkClass}>Login</NavLink>

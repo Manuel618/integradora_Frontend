@@ -7,6 +7,7 @@ import Dashboard from "./Dashboard";
 import Inventario from "./Inventario";
 import Rutas from "./Rutas";
 import PuntoDeVenta from "./PuntoDeVenta";
+import RegisterEmployee from "./RegisterEmployee"; // ⬅️ nuevo
 
 export default function PanelOperativo() {
   const [tab, setTab] = useState("dashboard");
@@ -125,6 +126,18 @@ export default function PanelOperativo() {
                 </svg>
               }
             />
+            {/* ⬇️ NUEVO: enlace para ver el registro de empleados (debajo de POS) */}
+            <NavItem
+              id="registro"
+              label="Registrar empleado"
+              icon={
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="12" cy="7" r="4" />
+                  <path d="M5.5 21a6.5 6.5 0 0 1 13 0" />
+                  <path d="M19 10v4M21 12h-4" />
+                </svg>
+              }
+            />
 
             <div className="po__nav-sep" />
 
@@ -143,11 +156,12 @@ export default function PanelOperativo() {
 
       {/* ===================== Main ===================== */}
       <main className="po__main">
-        {/* Si no quieres pasar products, puedes quitar esa prop sin problema */}
         {tab === "dashboard"  && <Dashboard  fecha={fecha} routes={routes} products={products} money={money} />}
         {tab === "inventario" && <Inventario money={money} />}
         {tab === "rutas"      && <Rutas routes={routes} onCreateRoute={createRoute} />}
         {tab === "pos"        && <PuntoDeVenta products={products} money={money} />}
+        {/* ⬇️ NUEVO: pestaña para el registro */}
+        {tab === "registro"   && <RegisterEmployee redirectTo="/login" />}
 
         <footer className="po__footer">© {new Date().getFullYear()} — Panel operativo</footer>
       </main>

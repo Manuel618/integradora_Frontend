@@ -1,139 +1,209 @@
-import { useMemo, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import React, { useMemo, useEffect, useCallback, useState } from "react";
+import { Link } from "react-router-dom";
 import "../styles/HomeScreen.css";
 
-/** ───────────── Assets (recomendado: evitar espacios en nombres de archivo) ─────────────
- * Si puedes, renombra "pollo frito.jpg" a "pollo-frito.jpg" y actualiza el import.
- */
-import alitaNatural from "../assets/alitaNatural.jpg";
-import hamburguesa from "../assets/hamburguesa.jpg";
-import papas from "../assets/papas.jpg";
-import pollo from "../assets/pollo.jpg";
-import pollo_frito from "../assets/pollo_frito.jpg"; // Hero background
-import pechuga from "../assets/pechuga.jpg";
+/* Leaflet */
+import "leaflet/dist/leaflet.css";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import L from "leaflet";
+import iconUrl from "leaflet/dist/images/marker-icon.png";
+import iconRetinaUrl from "leaflet/dist/images/marker-icon-2x.png";
+import shadowUrl from "leaflet/dist/images/marker-shadow.png";
 
-/** ───────────── Catálogo y tabs ───────────── */
-const PRODUCTS = Object.freeze([
-  { id: 1, name: "Alita natural",     price: 95,  unit: "kg", img: alitaNatural, cat: "fresco"     },
-  { id: 2, name: "Hamburguesa",       price: 60,  unit: "pz", img: hamburguesa,  cat: "congelado"  },
-  { id: 3, name: "Papas",             price: 40,  unit: "kg", img: papas,        cat: "frito"      },
-  { id: 4, name: "Pollo entero",      price: 80,  unit: "kg", img: pollo,        cat: "fresco"     },
-  { id: 5, name: "Pechuga sin hueso", price: 170, unit: "kg", img: pechuga,      cat: "congelado"  },
-]);
+/* Configurar íconos por defecto de Leaflet (una sola vez por módulo) */
+let _leafletIconsPatched = false;
+if (!_leafletIconsPatched) {
+  L.Icon.Default.mergeOptions({ iconUrl, iconRetinaUrl, shadowUrl });
+  _leafletIconsPatched = true;
+}
 
-const TABS = Object.freeze([
-  { key: "congelado", label: "Congelado" },
-  { key: "fresco",    label: "Fresco"    },
-  { key: "frito",     label: "Frito"     },
-]);
-
-const INITIAL_TAB = "congelado";
-
-/** ───────────── Utils ───────────── */
-const normalizeText = (s) =>
-  String(s ?? "")
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase();
-
-const moneyMXN = new Intl.NumberFormat("es-MX", {
-  style: "currency",
-  currency: "MXN",
-  minimumFractionDigits: 2,
-  maximumFractionDigits: 2,
-});
+/* ====== Separadores ====== */
+const Divider = () => <div className="divider divider--soft" aria-hidden="true" />;
+// Si prefieres ondulado, usa WaveSep en lugar de Divider
+// const WaveSep = () => (
+//   <div className="wave-sep" aria-hidden="true">
+//     <svg viewBox="0 0 1200 80" preserveAspectRatio="none">
+//       <path d="M0,40 C300,80 900,0 1200,40 L1200,80 L0,80 Z"></path>
+//     </svg>
+//   </div>
+// );
 
 export default function HomeScreen() {
-  const [tab, setTab] = useState(INITIAL_TAB);
-  const [params] = useSearchParams();
+  /* Datos para el mapa/lista */
+  const BRANCHES_MAP = Object.freeze([
+    {
+      id: 1,
+      name: "Calle Pino Suárez",
+      address: "Calle Pino Suárez, Durango, Dgo.",
+      hours: "09:00 - 19:00",
+      lat: 24.0236,
+      lng: -104.6700,
+    },
+    {
+      id: 2,
+      name: "Calle Las Flores",
+      address: "Calle Las Flores, Durango, Dgo.",
+      hours: "09:00 - 19:00",
+      lat: 24.0280,
+      lng: -104.6600,
+    },
+  ]);
+  const INITIAL_BRANCH_ID = BRANCHES_MAP[0].id;
 
-  // Query en URL (?q=) -> búsqueda por nombre
-  const rawQuery = params.get("q") || "";
-  const normalizedQuery = useMemo(() => normalizeText(rawQuery.trim()), [rawQuery]);
+  function FlyTo({ center, zoom = 14 }) {
+    const map = useMap();
+    useEffect(() => { if (center) map.flyTo(center, zoom, { duration: 0.8 }); }, [center, zoom, map]);
+    return null;
+  }
 
-  // Lista mostrada: si hay búsqueda, ignora pestaña; si no, filtra por pestaña
-  const items = useMemo(() => {
-    if (normalizedQuery) {
-      return PRODUCTS.filter((p) => normalizeText(p.name).includes(normalizedQuery));
-    }
-    return PRODUCTS.filter((p) => p.cat === tab);
-  }, [tab, normalizedQuery]);
+  function BranchItem({ branch, active, onSelect }) {
+    const handleKeyDown = useCallback((e) => {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onSelect(branch.id); }
+    }, [branch.id, onSelect]);
 
-  // Clave para animación cuando cambian tab o query (sin afectar el layout)
-  const gridKey = normalizedQuery ? `search-${normalizedQuery}` : tab;
+    return (
+      <li
+        className={`branch-item ${active ? "is-active" : ""}`}
+        onClick={() => onSelect(branch.id)}
+        onKeyDown={handleKeyDown}
+        role="button"
+        tabIndex={0}
+        aria-pressed={active}
+      >
+        <div className="branch-name">{branch.name}</div>
+        <div className="branch-meta">
+          <span className="branch-addr">{branch.address}</span>
+          <span className="branch-hours">{branch.hours}</span>
+        </div>
+        <button className="btn small" type="button">Ver en mapa</button>
+      </li>
+    );
+  }
+
+  const [selectedId, setSelectedId] = useState(INITIAL_BRANCH_ID);
+  const selected = useMemo(() => BRANCHES_MAP.find((b) => b.id === selectedId), [selectedId]);
+  const center = useMemo(() => [selected.lat, selected.lng], [selected.lat, selected.lng]);
+  const handleSelect = useCallback((id) => setSelectedId(id), []);
 
   return (
-    <div className="home-page">
-      {/* Hero: imagen movida al JSX */}
-      <section
-        className="hero-banner"
-        style={{
-          background: `linear-gradient(0deg, rgba(0,0,0,.35), rgba(0,0,0,.35)), url(${pollo_frito}) center/cover no-repeat`,
-        }}
-        aria-label="Destacados"
-      >
-        <div className="hero-overlay">
-          <h1>
-            Descubre
-            <br />
-            nuestras recetas
-          </h1>
+    <main className="home-page">
+      {/* HERO principal */}
+      <section className="hero-banner full-bleed">
+        <div className="hero-inner">
+          <h1 className="hero-title">Expendio El Pollo</h1>
+          <p className="hero-sub">El mejor sabor de la ciudad solo lo encuentras aquí</p>
+          <Link to="/recetario" className="hero-cta">Ver Menú</Link>
         </div>
       </section>
 
-      {/* Recetario digital + Tabs */}
-      <section className="catalog">
-        <div className="catalog-top">
-          <h2>Recetario digital</h2>
-
-          <div className="tabs" role="tablist" aria-label="Categorías de productos">
-            {TABS.map(({ key, label }) => {
-              const active = tab === key;
-              return (
-                <button
-                  key={key}
-                  type="button"
-                  className={`tab ${active ? "active" : ""}`}
-                  onClick={() => setTab(key)}
-                  role="tab"
-                  aria-selected={active}
-                  aria-controls={`panel-${key}`}
-                >
-                  {label}
-                </button>
-              );
-            })}
+      {/* ¿Por qué elegirnos? */}
+      <section className="section">
+        <div className="container">
+          <span className="eyebrow">Nuestro valor</span>
+          <h2 className="section-title">¿Por qué elegir Expendio El Pollo?</h2>
+          <div className="features">
+            <div className="feature">
+              <div className="feature-emoji">🍗</div>
+              <h3>Calidad Premium</h3>
+              <p>Pollos a granel frescos seleccionados diariamente</p>
+            </div>
+            <div className="feature">
+              <div className="feature-emoji">⚡</div>
+              <h3>Entrega Rápida</h3>
+              <p>Tu pedido listo en minutos</p>
+            </div>
+            <div className="feature">
+              <div className="feature-emoji">⭐</div>
+              <h3>Sabor Único</h3>
+              <p>Receta familiar tradicional</p>
+            </div>
           </div>
         </div>
+      </section>
 
-        {/* Grid de productos */}
-        <div id={`panel-${gridKey}`} key={gridKey} className="product-grid animate-in" role="region" aria-live="polite">
-          {items.map((p, idx) => (
-            <article className="product-card" key={p.id} style={{ "--i": idx }}>
-              <div className="product-img">
-                <img src={p.img} alt={p.name} loading="lazy" />
-              </div>
-              <h3 className="product-title">{p.name}</h3>
-              <div className="product-price">
-                {moneyMXN.format(p.price)} <span>{p.unit}</span>
-              </div>
-            </article>
-          ))}
-        </div>
+      {/* Separación natural */}
+      <Divider />
 
-        {/* CTA inferior */}
-        <div className="buy-cta-wrap">
-          <a href="#comprar" className="buy-cta" aria-label="Comprar ahora">
-            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-              <path
-                d="M7 4h-2l-1 2v1h2l3.6 7.59-1.35 2.44A2 2 0 0 0 10 20h9v-2h-9l1.1-2h6.45a2 2 0 0 0 1.79-1.11L22 9H7.42l-.72-1.45L6.16 6H21V4H7Z"
-                fill="currentColor"
-              />
-            </svg>
-            Comprar ahora
-          </a>
+      {/* Horarios */}
+      <section className="section-hours">
+        <div className="container">
+          <h2 className="hours-title">Horarios de Atención</h2>
+          <p className="hours-days">Lunes a Domingo</p>
+          <p className="hours-time">10:00 AM - 10:00 PM</p>
         </div>
       </section>
-    </div>
+
+      {/* Otra separación natural */}
+      <Divider />
+
+      {/* Título + mapa en la MISMA sección (compacto y elegante) */}
+      <section className="section full-bleed suc-block">
+        <div className="container">
+          <h2 className="section-title">Descubre nuestras sucursales</h2>
+        </div>
+
+        <div className="suc-content">
+          <div className="suc-map">
+            <MapContainer
+              center={center}
+              zoom={13}
+              scrollWheelZoom={false}
+              className="leaflet-container-fixed"
+            >
+              <TileLayer
+                attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              />
+              {BRANCHES_MAP.map((b) => (
+                <Marker key={b.id} position={[b.lat, b.lng]}>
+                  <Popup>
+                    <strong>{b.name}</strong><br />
+                    {b.address}<br />
+                    <small>{b.hours}</small>
+                  </Popup>
+                </Marker>
+              ))}
+              <FlyTo center={center} />
+            </MapContainer>
+          </div>
+
+          <aside className="suc-list">
+            <h2 className="suc-title">Sucursales</h2>
+            <ul className="branch-list">
+              {BRANCHES_MAP.map((b) => (
+                <BranchItem
+                  key={b.id}
+                  branch={b}
+                  active={b.id === selectedId}
+                  onSelect={handleSelect}
+                />
+              ))}
+            </ul>
+
+            <h2 className="suc-title">Contacto</h2>
+            <div className="contact-lines">
+              <div className="contact-line">
+                <span className="contact-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M22 16.92v2.98a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.07-8.63A2 2 0 0 1 4.11 2h2.98a2 2 0 0 1 2 1.72c.12.89.31 1.76.57 2.59a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.49-1.14a2 2 0 0 1 2.11-.45c.83.26 1.7.45 2.59.57A2 2 0 0 1 22 16.92z" />
+                  </svg>
+                </span>
+                <a className="contact-text" href="tel:5551233456">555-123-3456</a>
+              </div>
+
+              <div className="contact-line">
+                <span className="contact-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="5" width="18" height="14" rx="2" ry="2" />
+                    <path d="M3 7l9 6 9-6" />
+                  </svg>
+                </span>
+                <a className="contact-text" href="mailto:pollo@gmail.com">pollo@gmail.com</a>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </main>
   );
 }

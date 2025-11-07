@@ -3,7 +3,7 @@ import { HashRouter, Routes, Route } from "react-router-dom";
 
 import NavBar from "./components/NavBar.jsx";
 import HomeScreen from "./components/HomeScreen.jsx";      // Recetario (Home)
-import Sucursales from "./components/Sucursales.jsx";
+import Recetario from "./components/Recetario.jsx";  
 import Promociones from "./components/Promociones.jsx";
 import Login from "./components/Login.jsx";
 import JugarGanar from "./components/JugarGanar.jsx";
@@ -17,7 +17,7 @@ export default function App() {
 
       <Routes>
         <Route path="/" element={<HomeScreen />} />
-        <Route path="/sucursales" element={<Sucursales />} />
+          <Route path="/recetario" element={<Recetario />} />
         <Route path="/promociones" element={<Promociones />} />
         <Route path="/login" element={<Login />} />
         <Route path="/jugar-ganar" element={<JugarGanar />} />
