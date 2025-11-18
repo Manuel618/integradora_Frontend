@@ -103,8 +103,7 @@ export default function NavBar() {
           <NavLink to="/"                 className={linkClass} end>Inicio</NavLink>
           <NavLink to="/recetario"      className={linkClass}>Recetario</NavLink>
           <NavLink to="/promociones"     className={linkClass}>Promociones</NavLink>
-          <NavLink to="/panel-operativo" className={linkClass}>Panel Operativo</NavLink>
-          <NavLink to="/login"           className={linkClass}>Login</NavLink>
+         
 
           <NavLink
             to="/jugar-ganar"
@@ -117,3 +116,4 @@ export default function NavBar() {
     </header>
   );
 }
+
