@@ -78,11 +78,7 @@ export default function Promociones() {
         aria-label="Promociones destacadas"
       >
         <div className="hero-overlay">
-          <h1>
-            Descubre
-            <br />
-            nuestras promociones
-          </h1>
+         
         </div>
       </section>
 

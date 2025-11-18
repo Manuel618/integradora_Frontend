@@ -32,12 +32,15 @@
 /* ====== HERO ====== */
 /* La imagen/fondo se define en el JSX */
 .hero-banner{
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
   min-height: clamp(120px, 18vw, 180px);
-  margin: 0 clamp(24px, 8vw, 100px);
   border-radius: 0;
   overflow: hidden;
   box-shadow: var(--shadow-md);
 }
+
 .hero-overlay{
   min-height: inherit;
   display: flex;

@@ -16,6 +16,10 @@ import Pollo_picosito_estilo_Buffalo_Creamy from "../assets/Pollo_picosito_estil
 import Pollo_teriyaki from "../assets/Pollo_teriyaki.png";
 import Tinga_de_pollo from "../assets/Tinga_de_pollo.png";
 
+
+
+import pollo_frito from "../assets/pollo_frito.jpg";
+
 /* Productos (solo estas 12 recetas, ids desde 1) */
 const PRODUCTS = Object.freeze([
   { id: 1,  name: "Pollo a la crema con chipotle",           img: Pollo_a_la_crema_con_chipotle },
@@ -31,6 +35,10 @@ const PRODUCTS = Object.freeze([
   { id: 11, name: "Pollo con papas estilo guisado casero",   img: Pollo_con_papas_estilo_guisado_casero },
   { id: 12, name: "Pollo picosito estilo Buffalo Creamy",    img: Pollo_picosito_estilo_Buffalo_Creamy },
 ]);
+
+
+
+
 
 /* Recetas para el modal (solo estas 12, ids 1–12) */
 const RECIPES = {
@@ -347,7 +355,7 @@ export default function HomeScreen() {
       <section
         className="hero-banner"
         style={{
-          background: `linear-gradient(0deg, rgba(0,0,0,.20), rgba(0,0,0,.20)), url(${Pollo_frito_crujiente_estilo_KFC}) center/cover no-repeat`,
+          background: `linear-gradient(0deg, rgba(0,0,0,.20), rgba(0,0,0,.20)), url(${pollo_frito}) center/cover no-repeat`,
         }}
         aria-label="Destacados"
       />
