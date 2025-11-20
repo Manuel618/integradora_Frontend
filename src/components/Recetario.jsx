@@ -16,11 +16,6 @@ import Pollo_picosito_estilo_Buffalo_Creamy from "../assets/Pollo_picosito_estil
 import Pollo_teriyaki from "../assets/Pollo_teriyaki.png";
 import Tinga_de_pollo from "../assets/Tinga_de_pollo.png";
 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 07c7f7e2358ff253bca3d958981d606d06eef0e8
 import pollo_frito from "../assets/pollo_frito.jpg";
 
 /* Productos (solo estas 12 recetas, ids desde 1) */
@@ -38,10 +33,6 @@ const PRODUCTS = Object.freeze([
   { id: 11, name: "Pollo con papas estilo guisado casero",   img: Pollo_con_papas_estilo_guisado_casero },
   { id: 12, name: "Pollo picosito estilo Buffalo Creamy",    img: Pollo_picosito_estilo_Buffalo_Creamy },
 ]);
-
-
-
-
 
 /* Recetas para el modal (solo estas 12, ids 1–12) */
 const RECIPES = {
@@ -439,4 +430,3 @@ export default function HomeScreen() {
     </div>
   );
 }
-
