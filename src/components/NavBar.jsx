@@ -101,7 +101,7 @@ export default function NavBar() {
 
           {/* Links */}
           <NavLink to="/"             className={linkClass} end>Inicio</NavLink>
-          <NavLink to="/promociones"  className={linkClass}>Promductos</NavLink>
+          <NavLink to="/promociones"  className={linkClass}>Productos</NavLink>
           <NavLink to="/recetario"    className={linkClass}>Recetario</NavLink>
 
           <NavLink
