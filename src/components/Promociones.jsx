@@ -114,7 +114,13 @@ export default function Promociones() {
         }}
         aria-label="Promociones destacadas"
       >
+<<<<<<< HEAD
         <div className="hero-overlay"></div>
+=======
+        <div className="hero-overlay">
+         
+        </div>
+>>>>>>> 07c7f7e2358ff253bca3d958981d606d06eef0e8
       </section>
 
       {/* Promociones + Tabs */}
@@ -189,3 +195,4 @@ export default function Promociones() {
     </div>
   );
 }
+

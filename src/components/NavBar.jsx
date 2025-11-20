@@ -102,7 +102,12 @@ export default function NavBar() {
           {/* Links */}
           <NavLink to="/"                 className={linkClass} end>Inicio</NavLink>
           <NavLink to="/promociones"     className={linkClass}>Promociones</NavLink>
+<<<<<<< HEAD
           <NavLink to="/recetario"      className={linkClass}>Recetario</NavLink>
+=======
+         
+
+>>>>>>> 07c7f7e2358ff253bca3d958981d606d06eef0e8
           <NavLink
             to="/jugar-ganar"
             className={({ isActive }) => `cta ${isActive ? "active" : ""}`}
@@ -114,3 +119,4 @@ export default function NavBar() {
     </header>
   );
 }
+
