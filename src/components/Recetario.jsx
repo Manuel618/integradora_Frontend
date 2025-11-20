@@ -16,8 +16,6 @@ import Pollo_picosito_estilo_Buffalo_Creamy from "../assets/Pollo_picosito_estil
 import Pollo_teriyaki from "../assets/Pollo_teriyaki.png";
 import Tinga_de_pollo from "../assets/Tinga_de_pollo.png";
 
-
-
 import pollo_frito from "../assets/pollo_frito.jpg";
 
 /* Productos (solo estas 12 recetas, ids desde 1) */
@@ -36,14 +34,9 @@ const PRODUCTS = Object.freeze([
   { id: 12, name: "Pollo picosito estilo Buffalo Creamy",    img: Pollo_picosito_estilo_Buffalo_Creamy },
 ]);
 
-
-
-
-
 /* Recetas para el modal (solo estas 12, ids 1–12) */
 const RECIPES = {
   1: {
-    // Pollo a la crema con chipotle
     ingredients: [
       "2 pechugas en cubos",
       "1 taza crema",
@@ -66,7 +59,6 @@ const RECIPES = {
     ],
   },
   2: {
-    // Pollo al horno con papas y verduras
     ingredients: [
       "4 piezas de pollo",
       "3 papas",
@@ -88,7 +80,6 @@ const RECIPES = {
     ],
   },
   3: {
-    // Tinga de pollo
     ingredients: [
       "2 pechugas cocidas y deshebradas",
       "3 jitomates",
@@ -109,7 +100,6 @@ const RECIPES = {
     ],
   },
   4: {
-    // Pollo frito crujiente estilo KFC
     ingredients: [
       "1 kg piezas de pollo",
       "2 tazas harina",
@@ -129,7 +119,6 @@ const RECIPES = {
     ],
   },
   5: {
-    // Pollo teriyaki
     ingredients: [
       "Pechuga en cubos",
       "Salsa de soya",
@@ -148,7 +137,6 @@ const RECIPES = {
     ],
   },
   6: {
-    // Pollo en salsa verde
     ingredients: [
       "Pollo",
       "Tomates verdes",
@@ -167,7 +155,6 @@ const RECIPES = {
     ],
   },
   7: {
-    // Pollo al curry con leche de coco
     ingredients: [
       "2 pechugas en cubos",
       "1 lata de leche de coco",
@@ -189,7 +176,6 @@ const RECIPES = {
     ],
   },
   8: {
-    // Pollo en adobo rojo
     ingredients: [
       "4 piezas de pollo",
       "3 chiles guajillo",
@@ -212,7 +198,6 @@ const RECIPES = {
     ],
   },
   9: {
-    // Pollo con champiñones en crema
     ingredients: [
       "2 pechugas en tiras",
       "1 taza champiñones",
@@ -234,7 +219,6 @@ const RECIPES = {
     ],
   },
   10: {
-    // Pollo estilo Alfredo con pasta
     ingredients: [
       "Pechugas en cubos",
       "1 taza crema",
@@ -255,7 +239,6 @@ const RECIPES = {
     ],
   },
   11: {
-    // Pollo con papas estilo guisado casero
     ingredients: [
       "2 pechugas o 4 piezas de pollo",
       "3 papas en cubos",
@@ -276,7 +259,6 @@ const RECIPES = {
     ],
   },
   12: {
-    // Pollo picosito estilo Buffalo Creamy
     ingredients: [
       "2 pechugas en tiras",
       "½ taza salsa búfalo",
@@ -308,11 +290,8 @@ export default function HomeScreen() {
   const [params] = useSearchParams();
   const location = useLocation();
 
-  // Texto que viene del navbar por state (navigate("/recetario", { state: { search } }))
   const navSearch = (location.state && location.state.search) || "";
-  // Texto que viene como query param (?q=pollo)
   const paramSearch = params.get("q") || "";
-  // Prioridad: query param > state
   const rawQuery = paramSearch || navSearch;
 
   const normalizedQuery = useMemo(
@@ -388,18 +367,6 @@ export default function HomeScreen() {
               </div>
             </article>
           ))}
-        </div>
-
-        <div className="buy-cta-wrap">
-          <a href="#comprar" className="buy-cta" aria-label="Comprar ahora">
-            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-              <path
-                d="M7 4h-2l-1 2v1h2l3.6 7.59-1.35 2.44A2 2 0 0 0 10 20h9v-2h-9l1.1-2h6.45a2 2 0 0 0 1.79-1.11L22 9H7.42l-.72-1.45L6.16 6H21V4H7Z"
-                fill="currentColor"
-              />
-            </svg>
-            Comprar ahora
-          </a>
         </div>
       </section>
 

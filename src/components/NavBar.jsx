@@ -101,10 +101,8 @@ export default function NavBar() {
 
           {/* Links */}
           <NavLink to="/"                 className={linkClass} end>Inicio</NavLink>
-          <NavLink to="/recetario"      className={linkClass}>Recetario</NavLink>
           <NavLink to="/promociones"     className={linkClass}>Promociones</NavLink>
-         
-
+          <NavLink to="/recetario"      className={linkClass}>Recetario</NavLink>
           <NavLink
             to="/jugar-ganar"
             className={({ isActive }) => `cta ${isActive ? "active" : ""}`}

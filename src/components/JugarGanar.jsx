@@ -1,5 +1,4 @@
 // src/pages/JugarGanar.jsx
-import { Link } from "react-router-dom";
 import "../styles/JugarGanar.css";
 import gameImg from "../assets/Imagen Juego.png";
 
@@ -40,12 +39,13 @@ export default function JugarGanar() {
             ¡Acumula puntos y gana descuentos en tu próxima compra!
           </p>
 
-          <Link className="btn-play" to="/juego" aria-label="Jugar ahora">
+          {/* Botón sin funcionalidad */}
+          <button className="btn-play" type="button" aria-label="Jugar ahora">
             <span>Juega Ahora</span>
             <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M14 3h7v7h-2V7.41l-9.29 9.3-1.42-1.42 9.3-9.29H14V3ZM5 5h6v2H7v10h10v-4h2v6H5V5Z" />
             </svg>
-          </Link>
+          </button>
         </div>
       </div>
     </section>
