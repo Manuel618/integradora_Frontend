@@ -33,23 +33,23 @@ const PRODUCTS = Object.freeze([
   { id: 1,  name: "Alita de pollo",               price: 95,  unit: "kg", img: alitaNatural,  cat: "fresco",     discount: 5 },
   { id: 2,  name: "Hamburguesa de pollo",         price: 60,  unit: "pz", img: hamburguesa,   cat: "congelado",  discount: 5 },
   { id: 3,  name: "Papas a la francesa",          price: 40,  unit: "kg", img: papas,         cat: "frito",      discount: 5 },
-  { id: 4,  name: "Pollo entero",                 price: 80,  unit: "kg", img: pollo,         cat: "fresco",     discount: 0 },
+  { id: 4,  name: "Pollo entero",                 price: 80,  unit: "kg", img: pollo,         cat: "fresco",     discount: 5 },
   { id: 5,  name: "Pechuga de pollo sin hueso",   price: 170, unit: "kg", img: pechuga,       cat: "congelado",  discount: 5 },
   { id: 6,  name: "Ala adobada de pollo",         price: 105, unit: "kg", img: alaAdob,       cat: "fresco",     discount: 5 },
   { id: 7,  name: "Aplanado de pollo",            price: 120, unit: "kg", img: apla,          cat: "congelado",  discount: 5 },
   { id: 8,  name: "Bate empanizado de pollo",     price: 115, unit: "kg", img: bate,          cat: "congelado",  discount: 5 },
   { id: 9,  name: "Bolsa de menudencias",         price: 90,  unit: "kg", img: bolsaMenu,     cat: "fresco",     discount: 5 },
-  { id: 10, name: "Filete de pollo",              price: 160, unit: "kg", img: Filete,        cat: "fresco",     discount: 0 },
+  { id: 10, name: "Filete de pollo",              price: 160, unit: "kg", img: Filete,        cat: "fresco",     discount: 5 },
   { id: 11, name: "Pollo frito",                  price: 25,  unit: "pz", img: frito,         cat: "frito",      discount: 5 },
   { id: 12, name: "Hígado de pollo",              price: 60,  unit: "kg", img: higado,        cat: "fresco",     discount: 5 },
   { id: 13, name: "Pollo sabor mezquite",         price: 110, unit: "kg", img: mezquite,      cat: "fresco",     discount: 5 },
-  { id: 14, name: "Molleja de pollo",             price: 55,  unit: "kg", img: molleja,       cat: "fresco",     discount: 0 },
+  { id: 14, name: "Molleja de pollo",             price: 55,  unit: "kg", img: molleja,       cat: "fresco",     discount: 5 },
   { id: 15, name: "Nuggets de pollo",             price: 75,  unit: "kg", img: nugget,        cat: "congelado",  discount: 5 },
   { id: 16, name: "Pata de pollo",                price: 45,  unit: "kg", img: pata,          cat: "fresco",     discount: 5 },
   { id: 17, name: "Pechuga picosita de pollo",    price: 180, unit: "kg", img: picosita,      cat: "fresco",     discount: 5 },
-  { id: 18, name: "Piernita adobada de pollo",    price: 100, unit: "kg", img: piernitaAdob,  cat: "fresco",     discount: 0 },
+  { id: 18, name: "Piernita adobada de pollo",    price: 100, unit: "kg", img: piernitaAdob,  cat: "fresco",     discount: 5 },
   { id: 19, name: "Pierna y muslo de pollo",      price: 85,  unit: "kg", img: pym,           cat: "fresco",     discount: 5 },
-  { id: 20, name: "Tenders de pollo",             price: 130, unit: "kg", img: tender,        cat: "congelado",  discount: 0 },
+  { id: 20, name: "Tenders de pollo",             price: 130, unit: "kg", img: tender,        cat: "congelado",  discount: 5 },
 ]);
 
 // Orden de pestañas: primero Fresco, luego Congelado, luego Frito
@@ -156,6 +156,9 @@ export default function Promociones() {
           aria-live="polite"
         >
           {items.map((p, idx) => {
+            const off = Number.isFinite(p.discount) ? p.discount : 0;
+            const finalPrice = Math.max(0, p.price * (1 - off / 100));
+
             return (
               <article
                 className="product-card"
@@ -168,11 +171,15 @@ export default function Promociones() {
 
                 <h3 className="product-title">{p.name}</h3>
 
-                {/* SOLO precio original */}
+                {/* Precios: original tachado, promo y porcentaje */}
                 <div className="price-box">
-                  <div className="price-main">
+                  <div className="price-old">
                     {moneyMXN.format(p.price)} <span>{p.unit}</span>
                   </div>
+                  <div className="price-new">
+                    {moneyMXN.format(finalPrice)} <span>{p.unit}</span>
+                  </div>
+                  <div className="price-note">-{off}%</div>
                 </div>
               </article>
             );
@@ -182,3 +189,4 @@ export default function Promociones() {
     </div>
   );
 }
+
